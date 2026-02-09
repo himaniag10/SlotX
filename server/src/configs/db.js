@@ -6,9 +6,9 @@ const connectDB = async () => {
             dbName: process.env.DB_NAME || "slotx_db",
         });
 
-        console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
-        console.error("❌ MongoDB connection failed:", error.message);
+        console.error("MongoDB connection failed:", error.message);
         process.exit(1);
     }
 };
