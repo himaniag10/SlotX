@@ -1,22 +1,38 @@
-const express=require("express");
-const corsMiddleware=require("./configs/cors");
+const express = require("express");
+const corsMiddleware = require("./configs/cors");
+const authRouter = require("./routes/auth.routes");
+const connectDB = require("./configs/db");
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
-const app=express();
-const PORT=process.env.PORT;
+const app = express();
+const PORT = process.env.PORT || 5001;
 
 app.use(corsMiddleware);
 app.use(express.json());
+app.use(cookieParser());
+
+app.use("/api/auth", authRouter)
 
 app.get("/", (req, res) => {
   res.status(200).send("<h1>Backend Running Successfully 🚀</h1>");
 });
 
+const startServer = async () => {
+  try {
+    await connectDB();
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`DEBUG: NODE_ENV = ${process.env.NODE_ENV}`);
-  console.log(`Local Backend URL: ${process.env.BACKEND_LOCAL_URL}`);
-  console.log(`Deployed Backend URL: ${process.env.BACKEND_SERVER_URL}`);
-});
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+      console.log(`DEBUG: NODE_ENV = ${process.env.NODE_ENV}`);
+      console.log(`Local Backend URL: ${process.env.BACKEND_LOCAL_URL}`);
+      console.log(`Deployed Backend URL: ${process.env.BACKEND_SERVER_URL}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
