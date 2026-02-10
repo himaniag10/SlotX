@@ -86,7 +86,7 @@ const login = async (req, res, next) => {
             httpOnly: true,
             secure: isProd,
             sameSite: isProd ? "none" : "lax",
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+            maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
         return res.json({ success: true, message: "Login successful", accessToken });

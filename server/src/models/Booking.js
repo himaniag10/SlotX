@@ -30,9 +30,6 @@ const bookingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-/*
-One booking per student per exam
-*/
 bookingSchema.index(
   { studentId: 1, examId: 1 },
   { unique: true }

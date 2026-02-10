@@ -15,12 +15,12 @@ const examSlotSchema = new mongoose.Schema(
     },
 
     startTime: {
-      type: String, // "10:00"
+      type: String,
       required: true,
     },
 
     endTime: {
-      type: String, // "13:00"
+      type: String,
       required: true,
     },
 
@@ -43,7 +43,6 @@ const examSlotSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Fast lookup for slots
 examSlotSchema.index({ examName: 1, date: 1 });
 
 module.exports = mongoose.model("ExamSlot", examSlotSchema);
