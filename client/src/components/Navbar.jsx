@@ -16,14 +16,12 @@ const Navbar = () => {
         <nav className="bg-indigo-600 text-white shadow-lg sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
-                    {/* Logo Section */}
                     <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => navigate("/")}>
                         <span className="font-bold text-2xl tracking-tight hover:text-indigo-100 transition duration-300">
                             Slot<span className="text-yellow-300">X</span>
                         </span>
                     </div>
 
-                    {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-4">
                         {user ? (
                             <div className="flex items-center space-x-4">
@@ -60,7 +58,6 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <div className="md:hidden flex items-center">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -78,7 +75,6 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
             {isMenuOpen && (
                 <div className="md:hidden bg-indigo-700 pb-4">
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
