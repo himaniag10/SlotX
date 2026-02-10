@@ -21,7 +21,7 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (formData.password !== formData.confirmPassword) {
             return toast.error("Passwords do not match");
         }
@@ -29,7 +29,6 @@ const Signup = () => {
         setIsLoading(true);
 
         try {
-            // Remove confirmPassword before sending to API
             const { confirmPassword, ...registerData } = formData;
             await register(registerData);
             toast.success("Account created successfully!");
@@ -131,9 +130,8 @@ const Signup = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
-                                isLoading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
-                            } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200`}
+                            className={`group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white ${isLoading ? "bg-indigo-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
+                                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200`}
                         >
                             {isLoading ? "Creating Account..." : "Sign Up"}
                         </button>

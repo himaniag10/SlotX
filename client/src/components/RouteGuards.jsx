@@ -1,7 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-// Protected Route Component
 export const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
 
@@ -16,7 +15,6 @@ export const ProtectedRoute = ({ children }) => {
     return children;
 };
 
-// Public Route Component (redirects to dashboard if already logged in)
 export const PublicRoute = ({ children }) => {
     const { user, loading } = useAuth();
 

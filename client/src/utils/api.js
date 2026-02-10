@@ -18,7 +18,6 @@ export const api = axios.create({
 api.interceptors.response.use(
     (res) => res,
     async (error) => {
-        // Simple error handling without refresh token logic
         return Promise.reject(error);
     }
 );
