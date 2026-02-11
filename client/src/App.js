@@ -11,6 +11,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Landing from "./pages/Landing";
 import AdminRegistry from "./pages/AdminRegistry";
 import AdminLogs from "./pages/AdminLogs";
+import UserReservations from "./pages/UserReservations";
+import UserActiveReservations from "./pages/UserActiveReservationsPage";
+import UserActivity from "./pages/UserActivityPage";
 
 function App() {
     return (
@@ -43,6 +46,30 @@ function App() {
                                 element={
                                     <ProtectedRoute>
                                         <Dashboard />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/dashboard/reservations"
+                                element={
+                                    <ProtectedRoute>
+                                        <UserReservations />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/dashboard/active"
+                                element={
+                                    <ProtectedRoute>
+                                        <UserActiveReservations />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/dashboard/activity"
+                                element={
+                                    <ProtectedRoute>
+                                        <UserActivity />
                                     </ProtectedRoute>
                                 }
                             />
