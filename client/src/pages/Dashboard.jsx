@@ -6,8 +6,8 @@ const Dashboard = () => {
     const { user } = useAuth();
 
     return (
-        <div className="min-h-screen bg-gray-50/50">
-            <main className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-slate-50">
+            <main className="w-full">
                 {user?.role === "admin" ? (
                     <AdminDashboard user={user} />
                 ) : (
