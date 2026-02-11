@@ -1,6 +1,6 @@
 import React from "react";
-import UserDashboard from "../components/UserDashboard";
-import { useAuth } from "../contexts/AuthContext";
+import UserDashboard from "../../components/UserDashboard";
+import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 

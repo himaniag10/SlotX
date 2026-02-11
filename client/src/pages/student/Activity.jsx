@@ -1,10 +1,10 @@
 import React from "react";
-import UserDashboard from "../components/UserDashboard";
-import { useAuth } from "../contexts/AuthContext";
+import UserDashboard from "../../components/UserDashboard";
+import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 
-const UserReservationsPage = () => {
+const UserActivityPage = () => {
     const { user } = useAuth();
     return (
         <div className="min-h-screen py-8 bg-slate-50">
@@ -14,9 +14,9 @@ const UserReservationsPage = () => {
                     Back to Portal
                 </Link>
             </div>
-            <UserDashboard user={user} fullView={true} />
+            <UserDashboard user={user} fullActivity={true} />
         </div>
     );
 };
 
-export default UserReservationsPage;
+export default UserActivityPage;

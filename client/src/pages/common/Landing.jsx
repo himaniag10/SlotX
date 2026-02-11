@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { Calendar, Shield, Zap, UserCheck, ArrowRight, Users, Sparkles, Globe, Cpu } from "lucide-react";
 
 const Landing = () => {
@@ -48,24 +48,24 @@ const Landing = () => {
                         <Sparkles className="text-violet-600" size={14} />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-violet-600">Aura Light v5.0 Active</span>
                     </div>
-                    <h1 className="text-7xl md:text-9xl font-black tracking-tighter leading-none mb-10 text-slate-900">
+                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none mb-10 text-slate-900">
                         Master Your <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-teal-500">Infrastructure.</span>
                     </h1>
                     <p className="max-w-3xl mx-auto text-xl md:text-2xl text-slate-500 mb-16 font-medium leading-relaxed">
                         SlotX is the premium coordination engine for academic allocation. <br className="hidden md:block" /> Fast, minimalist, and architected for precision.
                     </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-8">
+                    <div className="flex flex-col sm:flex-row justify-center gap-6">
                         {user ? (
-                            <Link to="/dashboard" className="px-12 py-6 bg-violet-600 hover:bg-violet-700 text-white text-[11px] font-black uppercase tracking-[0.3em] rounded-2xl shadow-2xl shadow-violet-500/30 transition-all flex items-center justify-center gap-3 active:scale-95 group">
+                            <Link to="/dashboard" className="px-10 py-5 bg-violet-600 hover:bg-violet-700 text-white text-[11px] font-black uppercase tracking-[0.3em] rounded-xl shadow-2xl shadow-violet-500/30 transition-all flex items-center justify-center gap-3 active:scale-95 group">
                                 Access Dashboard <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                             </Link>
                         ) : (
                             <>
-                                <Link to="/signup" className="px-12 py-6 bg-violet-600 hover:bg-violet-700 text-white text-[11px] font-black uppercase tracking-[0.3em] rounded-2xl shadow-2xl shadow-violet-500/30 transition-all flex items-center justify-center gap-3 active:scale-95 group">
+                                <Link to="/signup" className="px-10 py-5 bg-violet-600 hover:bg-violet-700 text-white text-[11px] font-black uppercase tracking-[0.3em] rounded-xl shadow-2xl shadow-violet-500/30 transition-all flex items-center justify-center gap-3 active:scale-95 group">
                                     Initialize Account <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                                 </Link>
-                                <Link to="/login" className="px-12 py-6 bg-white border border-slate-200 hover:bg-slate-50 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] rounded-2xl transition-all shadow-sm active:scale-95">
+                                <Link to="/login" className="px-10 py-5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] rounded-xl transition-all shadow-sm active:scale-95">
                                     Terminal Auth
                                 </Link>
                             </>
@@ -110,14 +110,14 @@ const Landing = () => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {features.map((feature, index) => (
-                            <div key={index} className="p-12 bg-white border border-slate-200 hover:border-violet-300 rounded-[3rem] transition-all group shadow-sm hover:shadow-xl hover:shadow-violet-500/5 hover:-translate-y-2">
-                                <div className="mb-10 group-hover:scale-110 transition-transform inline-flex p-5 bg-slate-50 rounded-3xl border border-slate-100">
+                            <div key={index} className="p-10 bg-white border border-slate-200 hover:border-violet-300 rounded-3xl transition-all group shadow-sm hover:shadow-xl hover:shadow-violet-500/5 hover:-translate-y-1">
+                                <div className="mb-8 group-hover:scale-110 transition-transform inline-flex p-4 bg-slate-50 rounded-2xl border border-slate-100">
                                     {feature.icon}
                                 </div>
-                                <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">{feature.title}</h3>
-                                <p className="text-slate-500 leading-relaxed font-medium">
+                                <h3 className="text-xl font-black text-slate-900 mb-3 tracking-tight">{feature.title}</h3>
+                                <p className="text-slate-500 leading-relaxed font-medium text-sm">
                                     {feature.description}
                                 </p>
                             </div>
@@ -127,19 +127,19 @@ const Landing = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-32 px-6 lg:px-12">
-                <div className="max-w-[1400px] mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-[4rem] p-16 md:p-32 text-center relative overflow-hidden shadow-2xl">
+            <section className="py-24 px-6 lg:px-12">
+                <div className="max-w-[1400px] mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-12 md:p-24 text-center relative overflow-hidden shadow-2xl">
                     <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2"></div>
                     <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-teal-500/10 rounded-full blur-[150px] translate-y-1/2 -translate-x-1/2"></div>
 
                     <div className="relative z-10">
-                        <h2 className="text-5xl md:text-8xl font-black text-white mb-10 tracking-tighter leading-tight">
+                        <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-tight">
                             Core Online. <br /> Systems Ready.
                         </h2>
-                        <p className="text-slate-300 text-xl md:text-2xl mb-16 max-w-3xl mx-auto font-medium leading-relaxed">
+                        <p className="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
                             Join the global network and coordinate your academic schedule with the most advanced orchestration terminal in education.
                         </p>
-                        <Link to={user ? "/dashboard" : "/signup"} className="inline-flex px-16 py-8 bg-white text-slate-950 font-black rounded-[2rem] hover:scale-105 active:scale-95 transition-all shadow-2xl text-[10px] uppercase tracking-[0.4em]">
+                        <Link to={user ? "/dashboard" : "/signup"} className="inline-flex px-12 py-6 bg-white text-slate-950 font-black rounded-xl hover:scale-105 active:scale-95 transition-all shadow-2xl text-[10px] uppercase tracking-[0.4em]">
                             {user ? "Execute Dashboard" : "Register Credentials"}
                         </Link>
                     </div>

@@ -1,11 +1,12 @@
 import React from "react";
-import AdminDashboard from "../components/AdminDashboard";
-import { useAuth } from "../contexts/AuthContext";
+import AdminDashboard from "../../components/AdminDashboard";
+import { useAuth } from "../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 
-const AdminLogsPage = () => {
+const AdminRegistryPage = () => {
     const { user } = useAuth();
+
     return (
         <div className="min-h-screen py-8 bg-slate-50">
             <div className="w-full px-6 lg:px-12 mb-6">
@@ -14,9 +15,9 @@ const AdminLogsPage = () => {
                     Back to Terminal
                 </Link>
             </div>
-            <AdminDashboard user={user} fullLogs={true} />
+            <AdminDashboard user={user} fullRegistry={true} />
         </div>
     );
 };
 
-export default AdminLogsPage;
+export default AdminRegistryPage;

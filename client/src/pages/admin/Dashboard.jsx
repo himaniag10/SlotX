@@ -1,6 +1,6 @@
 import React from "react";
-import AdminDashboard from "../components/AdminDashboard";
-import { useAuth } from "../contexts/AuthContext";
+import AdminDashboard from "../../components/AdminDashboard";
+import { useAuth } from "../../contexts/AuthContext";
 
 const AdminDashboardPage = () => {
     const { user } = useAuth();
