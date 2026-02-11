@@ -2,15 +2,18 @@
 
 SlotX is a premium, high-performance web application designed to democratize and simplify exam slot booking for students and educational institutions. Built with a modern tech stack, it features a highly responsive interface with fluid animations and robust role-based access control.
 
+🔗 **Repository**: [https://github.com/himaniag10/SlotX](https://github.com/himaniag10/SlotX)
+
 ## 🚀 Features
 
 - **Role-Based Dashboards**:
-  - **Admin**: Monitor system health, track total students, and manage active exam slots.
+  - **Admin**: Monitor system health, track total students, manage active exam slots, and view audit logs.
   - **Student**: Effortlessly search for available slots, manage current bookings, and view activity history.
 - **Premium UI/UX**: Overhauled landing page with `framer-motion` animations, `lucide-react` iconography, and a clean, responsive layout.
-- **Secure Authentication**: Implementation of JWT-based authentication with secure cookie storage.
+- **Secure Authentication**: Implementation of JWT-based authentication with secure cookie storage and role-based access control.
 - **Real-time Metrics**: Visual representation of platform scale and success rates.
 - **Responsive Architecture**: Fully functional on mobile, tablet, and desktop.
+- **Robust Error Handling**: Standardized error responses with user-friendly toast notifications.
 
 ## 🛠️ Tech Stack
 
@@ -21,6 +24,7 @@ SlotX is a premium, high-performance web application designed to democratize and
 - [Framer Motion](https://www.framer.com/motion/)
 - [Lucide React](https://lucide.dev/)
 - [React Router DOM](https://reactrouter.com/)
+- [React Hot Toast](https://react-hot-toast.com/)
 
 **Backend:**
 
@@ -33,59 +37,111 @@ SlotX is a premium, high-performance web application designed to democratize and
 
 ```text
 .
-├── client/          # React Frontend application
-│   ├── src/        # Application source code
-│   └── public/     # Static assets and HTML template
-└── server/          # Node.js Express Backend
-    └── src/        # API routes, controllers, and models
+├── client/                  # React Frontend
+│   ├── src/
+│   │   ├── components/      # Reusable UI components
+│   │   ├── contexts/        # React Context (Auth, etc.)
+│   │   ├── pages/           # Application views
+│   │   │   ├── admin/       # Management dashboards & logs
+│   │   │   ├── auth/        # Authentication forms
+│   │   │   ├── common/      # Public pages (Landing)
+│   │   │   └── student/     # Student dashboards & booking
+│   │   └── utils/           # API clients & helpers
+│   └── public/              # Static assets
+└── server/                  # Node.js Backend
+    └── src/
+        ├── configs/         # Database & server config
+        ├── controllers/     # Route logic & handlers
+        ├── middlewares/     # Auth & error handling
+        ├── models/          # Mongoose schemas
+        └── routes/          # API endpoint definitions
 ```
 
 ## ⚙️ Setup & Installation
 
+This project uses **pnpm** for package management.
+
 ### Prerequisites
 
-- Node.js installed
-- `pnpm` (recommended) or `npm`
+- Node.js installed (v16+ recommended)
+- `pnpm` installed globally:
+  ```bash
+  npm install -g pnpm
+  ```
 - A running MongoDB instance (Local or Atlas)
 
-### Step 1: Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/himaniag10/SlotX.git
 cd SlotX
 ```
 
-### Step 2: Backend Configuration
+### 2. Backend Setup
 
-1. Navigate to the server folder: `cd server`
-2. Install dependencies: `pnpm install`
-3. Create a `.env` file and configure:
+Navigate to the server directory and install dependencies:
+
+```bash
+cd server
+pnpm install
+```
+
+Create a `.env` file in the `server` directory:
 
 ```env
 PORT=5001
 MONGO_URL=your_mongodb_connection_string
 DB_NAME=slotx_db
-JWT_SECRET=your_jwt_secret
+JWT_SECRET=your_jwt_secret_key_here
 JWT_EXPIRES_IN=7d
 FRONTEND_LOCAL_URL=http://localhost:3000
 BACKEND_LOCAL_URL=http://localhost:5001
 NODE_ENV=development
 ```
 
-4. Start server: `pnpm run dev`
+Start the backend server:
 
-### Step 3: Frontend Configuration
+```bash
+pnpm run dev
+# Or for production mode:
+# pnpm start
+```
 
-1. Navigate to the client folder: `cd ../client`
-2. Install dependencies: `pnpm install`
-3. Create a `.env` file and configure:
+### 3. Frontend Setup
+
+Open a new terminal, navigate to the client directory, and install dependencies:
+
+```bash
+cd client
+pnpm install
+```
+
+Create a `.env` file in the `client` directory:
 
 ```env
 REACT_APP_API_BACKEND_LOCAL_URL=http://localhost:5001
 REACT_APP_API_FRONTEND_LOCAL_URL=http://localhost:3000
 ```
 
-4. Start app: `pnpm run start`
+Start the frontend application:
+
+```bash
+pnpm start
+```
+
+The application should now be running at `http://localhost:3000`.
+
+## 📜 Scripts
+
+### Server
+
+- `pnpm run dev`: Runs the server in development mode with `nodemon`.
+- `pnpm start`: Runs the server in production mode.
+
+### Client
+
+- `pnpm start`: Runs the app in development mode.
+- `pnpm run build`: Builds the app for production to the `build` folder.
 
 ## 🛡️ Security Note
 
