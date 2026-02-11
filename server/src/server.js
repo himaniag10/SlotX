@@ -1,6 +1,8 @@
 const express = require("express");
 const corsMiddleware = require("./configs/cors");
 const authRouter = require("./routes/auth.routes");
+const adminRouter = require("./routes/admin.routes");
+const bookingRouter = require("./routes/booking.routes");
 const connectDB = require("./configs/db");
 const cookieParser = require("cookie-parser");
 
@@ -13,7 +15,9 @@ app.use(corsMiddleware);
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/auth", authRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api", bookingRouter);
 
 app.get("/", (req, res) => {
   res.status(200).send("<h1>Backend Running Successfully 🚀</h1>");
