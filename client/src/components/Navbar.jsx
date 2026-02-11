@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
-import { LogOut, User, Shield, Menu, X as CloseIcon } from 'lucide-react';
+import { LogOut, User, Shield, Menu, X as CloseIcon, Users, FileText, LayoutDashboard, CalendarCheck, Zap, History } from 'lucide-react';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
@@ -34,27 +34,66 @@ const Navbar = () => {
                                     <span className="text-xs font-black uppercase tracking-widest text-slate-600">{user.name}</span>
                                 </div>
 
-                                {user.role === "admin" && (
-                                    <button
-                                        onClick={() => navigate("/admin")}
-                                        className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
-                                    >
-                                        <Shield size={14} />
-                                        Terminal
-                                    </button>
+                                {user.role === "admin" ? (
+                                    <>
+                                        <button
+                                            onClick={() => navigate("/admin")}
+                                            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
+                                        >
+                                            <Shield size={14} />
+                                            Panel
+                                        </button>
+                                        <button
+                                            onClick={() => navigate("/admin/registry")}
+                                            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
+                                        >
+                                            <Users size={14} />
+                                            Registry
+                                        </button>
+                                        <button
+                                            onClick={() => navigate("/admin/logs")}
+                                            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
+                                        >
+                                            <FileText size={14} />
+                                            Logs
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button
+                                            onClick={() => navigate("/dashboard")}
+                                            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
+                                        >
+                                            <LayoutDashboard size={14} />
+                                            Dashboard
+                                        </button>
+                                        <button
+                                            onClick={() => navigate("/dashboard/reservations")}
+                                            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
+                                        >
+                                            <CalendarCheck size={14} />
+                                            Reservations
+                                        </button>
+                                        <button
+                                            onClick={() => navigate("/dashboard/active")}
+                                            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
+                                        >
+                                            <Zap size={14} />
+                                            Active
+                                        </button>
+                                        <button
+                                            onClick={() => navigate("/dashboard/activity")}
+                                            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
+                                        >
+                                            <History size={14} />
+                                            Activity
+                                        </button>
+                                    </>
                                 )}
 
                                 <button
-                                    onClick={() => navigate("/dashboard")}
-                                    className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
-                                >
-                                    <User size={14} />
-                                    Account
-                                </button>
-
-                                <button
                                     onClick={handleLogout}
-                                    className="px-6 py-3 bg-rose-500/10 hover:bg-rose-500 text-rose-600 hover:text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-2"
+                                    className="px-5 py-2.5 bg-rose-500/10 hover:bg-rose-500 text-rose-600 hover:text-white rounded-xl text-xs font-bold uppercase tracking-widest transition-all flex items-center gap-2"
                                 >
                                     <LogOut size={14} />
                                     Exit
@@ -91,14 +130,34 @@ const Navbar = () => {
                                 <div className="px-4 py-3 bg-slate-50 rounded-2xl border border-slate-100 text-xs font-black text-violet-600 uppercase tracking-widest">
                                     {user.name}
                                 </div>
-                                {user.role === "admin" && (
-                                    <Link to="/admin" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                                        Terminal
-                                    </Link>
+                                {user.role === "admin" ? (
+                                    <>
+                                        <Link to="/admin" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
+                                            Panel
+                                        </Link>
+                                        <Link to="/admin/registry" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
+                                            Registry
+                                        </Link>
+                                        <Link to="/admin/logs" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
+                                            Logs
+                                        </Link>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Link to="/dashboard" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
+                                            Dashboard
+                                        </Link>
+                                        <Link to="/dashboard/reservations" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
+                                            Reservations
+                                        </Link>
+                                        <Link to="/dashboard/active" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
+                                            Active
+                                        </Link>
+                                        <Link to="/dashboard/activity" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
+                                            Activity
+                                        </Link>
+                                    </>
                                 )}
-                                <Link to="/dashboard" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                                    Account
-                                </Link>
                                 <button onClick={handleLogout} className="w-full text-left px-4 py-4 bg-rose-500/10 text-rose-600 rounded-2xl text-xs font-black uppercase tracking-widest">
                                     Exit Terminal
                                 </button>
