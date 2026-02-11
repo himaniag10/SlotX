@@ -5,11 +5,17 @@ const AuditLog = require("../models/AuditLog");
 
 const getAdminStats = async (req, res, next) => {
     try {
+        const adminId = req.user.id;
+
+
+        const mySlots = await ExamSlot.find({ createdBy: adminId }).select("_id");
+        const slotIds = mySlots.map(s => s._id);
+
         const [totalStudents, activeSlots, totalBookings, failedAttempts] = await Promise.all([
             User.countDocuments({ role: "student" }),
-            ExamSlot.countDocuments({ isEnabled: true }),
-            Booking.countDocuments(),
-            AuditLog.countDocuments({ status: "FAILED" })
+            ExamSlot.countDocuments({ _id: { $in: slotIds }, isEnabled: true }),
+            Booking.countDocuments({ slotId: { $in: slotIds } }),
+            AuditLog.countDocuments({ slotId: { $in: slotIds }, status: "FAILED" })
         ]);
 
         res.json({

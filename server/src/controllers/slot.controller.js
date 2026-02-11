@@ -1,5 +1,6 @@
 const ExamSlot = require("../models/ExamSlot");
 const Booking = require("../models/Booking");
+const AuditLog = require("../models/AuditLog");
 const ApiError = require("../utils/ApiError");
 
 const createSlot = async (req, res, next) => {
@@ -10,13 +11,13 @@ const createSlot = async (req, res, next) => {
             throw new ApiError(400, "All fields are required");
         }
 
-        
+
         const toMinutes = (timeStr) => {
             const [h, m] = timeStr.split(':').map(Number);
             return h * 60 + m;
         };
 
-        
+
         const toTimeStr = (totalMin) => {
             const h = Math.floor(totalMin / 60);
             const m = totalMin % 60;
@@ -25,7 +26,7 @@ const createSlot = async (req, res, next) => {
 
         let start = toMinutes(startTime);
         let end = toMinutes(endTime);
-        let duration = parseInt(slotDuration) || (end - start); 
+        let duration = parseInt(slotDuration) || (end - start);
 
         if (start >= end) {
             throw new ApiError(400, "Start time must be before end time");
@@ -41,20 +42,22 @@ const createSlot = async (req, res, next) => {
                 startTime: toTimeStr(current),
                 endTime: toTimeStr(current + duration),
                 maxCapacity,
-                remainingCapacity: maxCapacity
+                remainingCapacity: maxCapacity,
+                createdBy: req.user.id
             });
             current += duration;
         }
 
         if (slotsToCreate.length === 0) {
-            
+
             slotsToCreate.push({
                 examName,
                 date,
                 startTime: toTimeStr(start),
                 endTime: toTimeStr(end),
                 maxCapacity,
-                remainingCapacity: maxCapacity
+                remainingCapacity: maxCapacity,
+                createdBy: req.user.id
             });
         }
 
@@ -72,14 +75,14 @@ const createSlot = async (req, res, next) => {
 
 const getAdminSlots = async (req, res, next) => {
     try {
-        const slots = await ExamSlot.find().sort({ date: 1, startTime: 1 }).lean();
+        const slots = await ExamSlot.find({ createdBy: req.user.id }).sort({ date: 1, startTime: 1 }).lean();
 
-        
+
         const bookings = await Booking.find()
             .populate("studentId", "name email")
             .lean();
 
-        
+
         const slotBookingsMap = {};
         bookings.forEach(b => {
             const sid = b.slotId.toString();
@@ -110,10 +113,10 @@ const getAdminSlots = async (req, res, next) => {
 const toggleSlotStatus = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const slot = await ExamSlot.findById(id);
+        const slot = await ExamSlot.findOne({ _id: id, createdBy: req.user.id });
 
         if (!slot) {
-            throw new ApiError(404, "Slot not found");
+            throw new ApiError(404, "Slot not found or unauthorized");
         }
 
         slot.isEnabled = !slot.isEnabled;
@@ -132,6 +135,10 @@ const toggleSlotStatus = async (req, res, next) => {
 const getSlotBookings = async (req, res, next) => {
     try {
         const { id } = req.params;
+        const slot = await ExamSlot.findOne({ _id: id, createdBy: req.user.id });
+        if (!slot) {
+            throw new ApiError(404, "Slot not found or unauthorized");
+        }
         const bookings = await Booking.find({ slotId: id }).populate("studentId", "name email");
 
         res.json({
@@ -148,9 +155,9 @@ const updateSlot = async (req, res, next) => {
         const { id } = req.params;
         const { examName, date, startTime, endTime, maxCapacity } = req.body;
 
-        const slot = await ExamSlot.findById(id);
+        const slot = await ExamSlot.findOne({ _id: id, createdBy: req.user.id });
         if (!slot) {
-            throw new ApiError(404, "Slot not found");
+            throw new ApiError(404, "Slot not found or unauthorized");
         }
 
         if (examName) slot.examName = examName;
@@ -182,13 +189,13 @@ const updateSlot = async (req, res, next) => {
 const deleteSlot = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const slot = await ExamSlot.findById(id);
+        const slot = await ExamSlot.findOne({ _id: id, createdBy: req.user.id });
 
         if (!slot) {
-            throw new ApiError(404, "Slot not found");
+            throw new ApiError(404, "Slot not found or unauthorized");
         }
 
-        
+
         const bookingsCount = await Booking.countDocuments({ slotId: id });
         if (bookingsCount > 0) {
             throw new ApiError(400, "Cannot delete slot with existing bookings. Please cancel bookings first.");
@@ -208,22 +215,25 @@ const deleteSlot = async (req, res, next) => {
 const adminRemoveBooking = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const booking = await Booking.findById(id);
+        const booking = await Booking.findById(id).populate("slotId");
 
         if (!booking) {
             throw new ApiError(404, "Booking not found");
         }
 
-        
+        if (booking.slotId.createdBy.toString() !== req.user.id) {
+            throw new ApiError(403, "Not authorized to manage this booking");
+        }
+
+
         await ExamSlot.findByIdAndUpdate(booking.slotId, {
             $inc: { remainingCapacity: 1 }
         });
 
-        
+
         await Booking.findByIdAndDelete(id);
 
-        
-        const AuditLog = require("../models/AuditLog"); 
+
         await AuditLog.create({
             studentId: booking.studentId,
             examId: booking.examId,

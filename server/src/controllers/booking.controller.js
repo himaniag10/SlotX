@@ -7,7 +7,7 @@ const getAvailableSlots = async (req, res, next) => {
     try {
         const slots = await ExamSlot.find({
             isEnabled: true,
-        }).sort({ date: 1, startTime: 1 });
+        }).populate("createdBy", "name email").sort({ date: 1, startTime: 1 });
 
         res.json({
             success: true,

@@ -5,6 +5,7 @@ const adminRouter = require("./routes/admin.routes");
 const bookingRouter = require("./routes/booking.routes");
 const connectDB = require("./configs/db");
 const cookieParser = require("cookie-parser");
+const errorHandler = require("./middlewares/error.middleware");
 
 require("dotenv").config();
 
@@ -18,6 +19,8 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api", bookingRouter);
+
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.status(200).send("<h1>Backend Running Successfully 🚀</h1>");

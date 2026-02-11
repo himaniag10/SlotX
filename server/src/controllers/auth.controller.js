@@ -10,9 +10,9 @@ const {
 
 const register = async (req, res, next) => {
     try {
-        let { name, username, email, password } = req.body;
+        let { name, email, password } = req.body;
 
-        if (!name || !username || !email || !password) {
+        if (!name || !email || !password) {
             throw new ApiError(400, "All fields are required");
         }
 
@@ -25,30 +25,35 @@ const register = async (req, res, next) => {
             throw new ApiError(400, "Password must be at least 6 characters long");
         }
 
-        username = username.toLowerCase().trim();
         email = email.toLowerCase().trim();
 
-        const existingUser = await User.findOne({
-            $or: [{ email }, { username }],
-        });
+        const existingUser = await User.findOne({ email });
 
         if (existingUser) {
-            if (existingUser.email === email) {
-                throw new ApiError(409, "Email already exists");
-            }
-            throw new ApiError(409, "Username already exists");
+            throw new ApiError(409, "Email already exists");
         }
 
         const hashedPassword = await hashPassword(password);
 
-        await User.create({
+        const user = await User.create({
             name,
-            username,
             email,
             password: hashedPassword,
+            role: "student",
         });
 
-        return res.status(201).json({ success: true, message: "User registered successfully" });
+        const payload = { id: user._id, role: user.role };
+        const accessToken = signAccessToken(payload);
+        const isProd = process.env.NODE_ENV === "production";
+
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            secure: isProd,
+            sameSite: isProd ? "none" : "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+        return res.status(201).json({ success: true, message: "User registered successfully", accessToken });
     } catch (error) {
         next(error);
     }
