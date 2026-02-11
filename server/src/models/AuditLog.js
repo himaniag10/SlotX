@@ -18,12 +18,12 @@ const auditLogSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["SUCCESS", "FAILED"],
+      enum: ["SUCCESS", "FAILED", "CANCELLED"],
       required: true,
     },
 
     reason: {
-      type: String, 
+      type: String,
     },
 
     requestId: {
