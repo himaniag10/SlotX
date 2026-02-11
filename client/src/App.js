@@ -4,23 +4,23 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { ProtectedRoute, PublicRoute, AdminRoute } from "./components/RouteGuards";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
 import Dashboard from "./pages/Dashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import Landing from "./pages/Landing";
-import AdminRegistry from "./pages/AdminRegistry";
-import AdminLogs from "./pages/AdminLogs";
-import UserReservations from "./pages/UserReservations";
-import UserActiveReservations from "./pages/UserActiveReservationsPage";
-import UserActivity from "./pages/UserActivityPage";
+import AdminDashboard from "./pages/admin/Dashboard";
+import Landing from "./pages/common/Landing";
+import AdminRegistry from "./pages/admin/Registry";
+import AdminLogs from "./pages/admin/Logs";
+import UserReservations from "./pages/student/Reservations";
+import UserActiveReservations from "./pages/student/ActiveReservations";
+import UserActivity from "./pages/student/Activity";
 
 function App() {
     return (
         <Router>
             <AuthProvider>
                 <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
-                    <Toaster position="top-right" />
+                    <Toaster position="bottom-right" />
                     <Navbar />
                     <div className="flex-grow">
                         <Routes>
@@ -41,6 +41,7 @@ function App() {
                                     </PublicRoute>
                                 }
                             />
+
                             <Route
                                 path="/dashboard"
                                 element={

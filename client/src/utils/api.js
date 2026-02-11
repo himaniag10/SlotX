@@ -63,8 +63,6 @@ export const bookingApi = {
     cancelBooking: (id) => apiFetch(`/api/cancel-booking/${id}`, { method: "DELETE" }),
 };
 
-
-
 export const getErrorMessage = (error) => {
     if (axios.isAxiosError(error)) {
         return error.response?.data?.message || error.response?.data?.error || error.message;
