@@ -42,6 +42,27 @@ export const authApi = {
     getMe: () => apiFetch("/api/auth/me"),
 };
 
+export const adminApi = {
+    getStats: () => apiFetch("/api/admin/stats"),
+    createSlot: (data) => apiFetch("/api/admin/exam-slots", { method: "POST", body: data }),
+    getSlots: () => apiFetch("/api/admin/exam-slots"),
+    updateSlot: (id, data) => apiFetch(`/api/admin/exam-slots/${id}`, { method: "PATCH", body: data }),
+    deleteSlot: (id) => apiFetch(`/api/admin/exam-slots/${id}`, { method: "DELETE" }),
+    toggleSlot: (id) => apiFetch(`/api/admin/exam-slots/${id}/toggle`, { method: "PATCH" }),
+    getSlotBookings: (id) => apiFetch(`/api/admin/slots/${id}/bookings`),
+    removeBooking: (id) => apiFetch(`/api/admin/bookings/${id}`, { method: "DELETE" }),
+    getAuditLogs: () => apiFetch("/api/admin/audit-logs"),
+};
+
+export const bookingApi = {
+    getStats: () => apiFetch("/api/stats"),
+    getActivity: () => apiFetch("/api/activity"),
+    getAvailableSlots: () => apiFetch("/api/slots/available"),
+    bookSlot: (data) => apiFetch("/api/book-slot", { method: "POST", body: data }),
+    getMyBookings: () => apiFetch("/api/my-bookings"),
+    cancelBooking: (id) => apiFetch(`/api/cancel-booking/${id}`, { method: "DELETE" }),
+};
+
 
 
 export const getErrorMessage = (error) => {
