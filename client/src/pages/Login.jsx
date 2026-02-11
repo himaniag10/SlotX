@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { Loader2, Shield, Mail, Lock, ShieldCheck } from 'lucide-react';
+import { Loader2, Mail, Lock, ShieldCheck } from 'lucide-react';
 
 const Login = () => {
     const { login } = useAuth();
