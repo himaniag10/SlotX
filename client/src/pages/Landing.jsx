@@ -1,195 +1,155 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
-import {
-    Calendar,
-    Shield,
-    Zap,
-    UserCheck,
-    ArrowRight,
-    CheckCircle2,
-    Users
-} from "lucide-react";
+import { Calendar, Shield, Zap, UserCheck, ArrowRight, CheckCircle2, Users, Sparkles, Globe, Cpu } from "lucide-react";
 
 const Landing = () => {
     const { user } = useAuth();
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
-    };
 
     const features = [
         {
-            icon: <Calendar className="w-8 h-8 text-indigo-500" />,
+            icon: <Calendar className="w-8 h-8 text-violet-600" />,
             title: "Seamless Booking",
-            description: "Book your preferred exam slots in seconds with our intuitive interface."
+            description: "Allocate preferred slots in seconds with our high-speed coordination unit."
         },
         {
-            icon: <Shield className="w-8 h-8 text-green-500" />,
+            icon: <Shield className="w-8 h-8 text-teal-600" />,
             title: "Secure & Reliable",
-            description: "Your data is encrypted and secure. We ensure zero double-bookings."
+            description: "Encrypted data streams with zero contention guarantee for every booking."
         },
         {
-            icon: <Zap className="w-8 h-8 text-yellow-500" />,
-            title: "Real-time Updates",
-            description: "Get instant notifications for new slots and booking confirmations."
+            icon: <Zap className="w-8 h-8 text-violet-500" />,
+            title: "Real-time Sync",
+            description: "Instantaneous heartbeat updates for all deployment windows."
         },
         {
-            icon: <UserCheck className="w-8 h-8 text-purple-500" />,
-            title: "Role-based Access",
-            description: "Dedicated dashboards for students and admins to manage tasks efficiently."
+            icon: <UserCheck className="w-8 h-8 text-violet-600" />,
+            title: "Central Control",
+            description: "High-level dashboards for students and admins to maintain order."
         }
     ];
 
     const stats = [
-        { label: "Active Students", value: "10k+", icon: <Users size={20} /> },
-        { label: "Slots Booked", value: "50k+", icon: <Calendar size={20} /> },
-        { label: "Uptime", value: "99.9%", icon: <Zap size={20} /> },
-        { label: "Success Rate", value: "100%", icon: <CheckCircle2 size={20} /> }
+        { label: "Active Units", value: "12k+", icon: <Users size={20} className="text-violet-600" /> },
+        { label: "Slots Allocated", value: "85k+", icon: <Calendar size={20} className="text-teal-600" /> },
+        { label: "System Uptime", value: "99.9%", icon: <Cpu size={20} className="text-rose-500" /> },
+        { label: "Global Sync", value: "100%", icon: <Globe size={20} className="text-violet-500" /> }
     ];
 
     return (
-        <div className="bg-white overflow-hidden">
-            <section className="relative pt-20 pb-32 lg:pt-32 lg:pb-48">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-center"
-                    >
-                        <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 tracking-tight leading-tight mb-6">
-                            Master Your Schedule with <br />
-                            <span className="text-indigo-600 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-                                SlotX
-                            </span>
-                        </h1>
-                        <p className="max-w-2xl mx-auto text-xl text-gray-500 mb-10 leading-relaxed">
-                            The intelligent slot booking platform designed specifically for students and educational institutions. Effortless, efficient, and elegant.
-                        </p>
-                        <div className="flex flex-col sm:flex-row justify-center gap-4">
-                            {user ? (
-                                <Link
-                                    to="/dashboard"
-                                    className="inline-flex items-center justify-center px-10 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-200"
-                                >
-                                    Go to Dashboard
-                                    <ArrowRight className="ml-2 w-5 h-5" />
-                                </Link>
-                            ) : (
-                                <>
-                                    <Link
-                                        to="/signup"
-                                        className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-all shadow-lg hover:shadow-indigo-200"
-                                    >
-                                        Get Started Free
-                                        <ArrowRight className="ml-2 w-5 h-5" />
-                                    </Link>
-                                    <Link
-                                        to="/login"
-                                        className="inline-flex items-center justify-center px-8 py-4 border-2 border-gray-100 text-lg font-bold rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition-all hover:border-indigo-100"
-                                    >
-                                        Sign In
-                                    </Link>
-                                </>
-                            )}
-                        </div>
-                    </motion.div>
-                </div>
+        <div className="bg-slate-50 text-slate-900 overflow-hidden min-h-screen font-sans">
+            {/* Hero Section */}
+            <section className="relative pt-32 pb-40 overflow-hidden">
+                {/* Ambient Background Glows */}
+                <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-violet-200/40 rounded-full blur-[120px] -z-10 animate-pulse"></div>
+                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-teal-100/40 rounded-full blur-[120px] -z-10 animate-pulse delay-700"></div>
 
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-0 pointer-events-none opacity-20">
-                    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-200 rounded-full blur-[120px]" />
-                    <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-200 rounded-full blur-[120px]" />
+                <div className="w-full px-6 lg:px-12 relative z-10 text-center">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-full mb-10 shadow-sm transition-transform hover:scale-105 cursor-default">
+                        <Sparkles className="text-violet-600" size={14} />
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-violet-600">Aura Light v5.0 Active</span>
+                    </div>
+                    <h1 className="text-7xl md:text-9xl font-black tracking-tighter leading-none mb-10 text-slate-900">
+                        Master Your <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-teal-500">Infrastructure.</span>
+                    </h1>
+                    <p className="max-w-3xl mx-auto text-xl md:text-2xl text-slate-500 mb-16 font-medium leading-relaxed">
+                        SlotX is the premium coordination engine for academic allocation. <br className="hidden md:block" /> Fast, minimalist, and architected for precision.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-8">
+                        {user ? (
+                            <Link to="/dashboard" className="px-12 py-6 bg-violet-600 hover:bg-violet-700 text-white text-[11px] font-black uppercase tracking-[0.3em] rounded-2xl shadow-2xl shadow-violet-500/30 transition-all flex items-center justify-center gap-3 active:scale-95 group">
+                                Access Dashboard <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        ) : (
+                            <>
+                                <Link to="/signup" className="px-12 py-6 bg-violet-600 hover:bg-violet-700 text-white text-[11px] font-black uppercase tracking-[0.3em] rounded-2xl shadow-2xl shadow-violet-500/30 transition-all flex items-center justify-center gap-3 active:scale-95 group">
+                                    Initialize Account <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                                <Link to="/login" className="px-12 py-6 bg-white border border-slate-200 hover:bg-slate-50 text-slate-900 text-[11px] font-black uppercase tracking-[0.3em] rounded-2xl transition-all shadow-sm active:scale-95">
+                                    Terminal Auth
+                                </Link>
+                            </>
+                        )}
+                    </div>
                 </div>
             </section>
 
-            <section className="bg-gray-50 py-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {/* Stats Section */}
+            <section className="bg-white py-24 border-y border-slate-100 shadow-sm relative z-20">
+                <div className="w-full px-6 lg:px-12">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-12 lg:gap-24">
                         {stats.map((stat, index) => (
-                            <div key={index} className="text-center">
-                                <div className="flex items-center justify-center text-indigo-600 mb-2">
-                                    {stat.icon}
+                            <div key={index} className="text-center group">
+                                <div className="mb-6 flex justify-center group-hover:scale-110 transition-transform">
+                                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm">
+                                        {stat.icon}
+                                    </div>
                                 </div>
-                                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                                <div className="text-sm font-medium text-gray-500 uppercase tracking-widest">{stat.label}</div>
+                                <div className="text-5xl font-black text-slate-900 mb-2 tracking-tighter">{stat.value}</div>
+                                <div className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">{stat.label}</div>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            <section className="py-24 bg-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Everything you need to succeed</h2>
-                        <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                            SlotX provides all the tools necessary for an optimal booking experience.
-                        </p>
+            {/* Features Section */}
+            <section className="py-40 bg-slate-50 relative overflow-hidden">
+                <div className="w-full px-6 lg:px-12 relative z-10">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
+                        <div className="max-w-2xl">
+                            <h2 className="text-6xl font-black text-slate-900 mb-8 tracking-tighter">Engine Specs.</h2>
+                            <p className="text-xl text-slate-500 font-medium leading-relaxed">
+                                Engineered for high-concurrency environments requiring absolute precision in slot management and real-time state synchronization.
+                            </p>
+                        </div>
+                        <div className="pb-2">
+                            <div className="px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-violet-600 shadow-sm">
+                                System Status: Optimal
+                            </div>
+                        </div>
                     </div>
 
-                    <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
-                    >
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                         {features.map((feature, index) => (
-                            <motion.div
-                                key={index}
-                                variants={itemVariants}
-                                className="p-8 rounded-2xl bg-white border border-gray-100 hover:border-indigo-200 transition-all hover:shadow-xl hover:shadow-indigo-50/50 group"
-                            >
-                                <div className="p-3 bg-gray-50 rounded-xl inline-block mb-6 group-hover:scale-110 transition-transform">
+                            <div key={index} className="p-12 bg-white border border-slate-200 hover:border-violet-300 rounded-[3rem] transition-all group shadow-sm hover:shadow-xl hover:shadow-violet-500/5 hover:-translate-y-2">
+                                <div className="mb-10 group-hover:scale-110 transition-transform inline-flex p-5 bg-slate-50 rounded-3xl border border-slate-100">
                                     {feature.icon}
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                                <p className="text-gray-500 leading-relaxed">
+                                <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">{feature.title}</h3>
+                                <p className="text-slate-500 leading-relaxed font-medium">
                                     {feature.description}
                                 </p>
-                            </motion.div>
+                            </div>
                         ))}
-                    </motion.div>
-                </div>
-            </section>
-
-            <section className="py-24">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-indigo-600 rounded-[2.5rem] p-8 md:p-16 text-center relative overflow-hidden shadow-2xl shadow-indigo-200">
-                        <div className="relative z-10">
-                            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-                                Ready to simplify your scheduling?
-                            </h2>
-                            <p className="text-indigo-100 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-                                Join thousands of students who are already using SlotX to manage their academic life.
-                            </p>
-                            <Link
-                                to={user ? "/dashboard" : "/signup"}
-                                className="inline-flex items-center justify-center px-10 py-4 bg-white text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-all shadow-lg"
-                            >
-                                {user ? "Manage Your Dashboard" : "Create Your Account Now"}
-                            </Link>
-                        </div>
-                        <div className="absolute top-0 right-0 -m-20 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
-                        <div className="absolute bottom-0 left-0 -m-20 w-80 h-80 bg-indigo-500/50 rounded-full blur-3xl" />
                     </div>
                 </div>
             </section>
 
+            {/* CTA Section */}
+            <section className="py-32 px-6 lg:px-12">
+                <div className="max-w-[1400px] mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-[4rem] p-16 md:p-32 text-center relative overflow-hidden shadow-2xl">
+                    <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2"></div>
+                    <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-teal-500/10 rounded-full blur-[150px] translate-y-1/2 -translate-x-1/2"></div>
+
+                    <div className="relative z-10">
+                        <h2 className="text-5xl md:text-8xl font-black text-white mb-10 tracking-tighter leading-tight">
+                            Core Online. <br /> Systems Ready.
+                        </h2>
+                        <p className="text-slate-300 text-xl md:text-2xl mb-16 max-w-3xl mx-auto font-medium leading-relaxed">
+                            Join the global network and coordinate your academic schedule with the most advanced orchestration terminal in education.
+                        </p>
+                        <Link to={user ? "/dashboard" : "/signup"} className="inline-flex px-16 py-8 bg-white text-slate-950 font-black rounded-[2rem] hover:scale-105 active:scale-95 transition-all shadow-2xl text-[10px] uppercase tracking-[0.4em]">
+                            {user ? "Execute Dashboard" : "Register Credentials"}
+                        </Link>
+                    </div>
+                </div>
+            </section>
+
+            {/* Footer Decorative Logo */}
+            <div className="py-20 text-center opacity-20 pointer-events-none mb-10">
+                <span className="text-8xl md:text-[12rem] font-black text-slate-300 select-none tracking-tighter">SLOTX</span>
+            </div>
         </div>
     );
 };
