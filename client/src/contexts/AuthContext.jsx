@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { apiFetch } from "../utils/api";
+import { apiFetch, getErrorMessage } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -22,26 +22,28 @@ export function AuthProvider({ children }) {
     };
 
     const login = async (data) => {
-        await apiFetch("/api/auth/login", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: { "Content-Type": "application/json" }
-        });
-        await refreshUser();
-        if (user) {
-            navigate("/dashboard");
+        try {
+            await apiFetch("/api/auth/login", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: { "Content-Type": "application/json" }
+            });
+            await refreshUser();
+        } catch (error) {
+            throw new Error(getErrorMessage(error));
         }
     };
 
-    const register = async (data) => {
-        await apiFetch("/api/auth/register", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: { "Content-Type": "application/json" }
-        });
-        await refreshUser();
-        if (user) {
-            navigate("/dashboard");
+    const signup = async (data) => {
+        try {
+            await apiFetch("/api/auth/register", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: { "Content-Type": "application/json" }
+            });
+            await refreshUser();
+        } catch (error) {
+            throw new Error(getErrorMessage(error));
         }
     };
 
@@ -61,7 +63,7 @@ export function AuthProvider({ children }) {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, isLoggedIn: !!user, loading, refreshUser, login, register, logout }}>
+        <AuthContext.Provider value={{ user, isLoggedIn: !!user, loading, refreshUser, login, signup, logout }}>
             {children}
         </AuthContext.Provider>
     );
