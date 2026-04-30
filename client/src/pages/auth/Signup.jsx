@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { Loader2, User, Mail, Lock, ShieldCheck, Eye, EyeOff } from 'lucide-react';
+import { Loader2, User, Mail, ShieldCheck } from 'lucide-react';
 import { API_BASE } from "../../utils/api";
 
 const Signup = () => {
@@ -14,7 +14,7 @@ const Signup = () => {
         role: "student"
     });
     const [isLoading, setIsLoading] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
