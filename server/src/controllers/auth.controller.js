@@ -176,9 +176,7 @@ const googleCallback = async (req, res) => {
       ? process.env.FRONTEND_SERVER_URL
       : process.env.FRONTEND_LOCAL_URL;
 
-    res.redirect(
-      `${redirectUrl}/auth/callback?token=${token}&role=${user.role}`
-    );
+    res.redirect(`${redirectUrl}/auth/callback`);
   } catch (err) {
     const errorRedirectUrl = process.env.NODE_ENV === "production"
       ? process.env.FRONTEND_SERVER_URL
