@@ -283,10 +283,10 @@ const AdminDashboard = ({ user, fullRegistry = false, fullLogs = false }) => {
     };
 
     const handleRemoveStudent = async (bookingId) => {
-        if (!window.confirm("CRITICAL: This will immediately revoke student access and free the spot. Continue?")) return;
+        if (!window.confirm("CRITICAL: This will immediately revoke student enrollment and free the spot. Continue?")) return;
         try {
             await adminApi.removeBooking(bookingId);
-            toast.success("Access revoked");
+            toast.success("Enrollment revoked");
             fetchData();
         } catch (err) {
             toast.error(getErrorMessage(err));

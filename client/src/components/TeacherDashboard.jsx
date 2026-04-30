@@ -80,10 +80,10 @@ const TeacherDashboard = ({ user }) => {
     };
 
     const handleRemoveStudent = async (bookingId) => {
-        if (!window.confirm("Revoke student access?")) return;
+        if (!window.confirm("Revoke student enrollment?")) return;
         try {
             await adminApi.removeBooking(bookingId);
-            toast.success("Access revoked");
+            toast.success("Enrollment revoked");
             fetchData();
         } catch (err) {
             toast.error(getErrorMessage(err));

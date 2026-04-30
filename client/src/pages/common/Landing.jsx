@@ -54,7 +54,7 @@ const Landing = () => {
                     <div className="flex flex-col sm:flex-row justify-center gap-6">
                         {user ? (
                             <Link to="/dashboard" className="px-10 py-5 bg-violet-600 hover:bg-violet-700 text-white text-[11px] font-black uppercase tracking-[0.3em] rounded-xl shadow-2xl shadow-violet-500/30 transition-all flex items-center justify-center gap-3 active:scale-95 group">
-                                Access Dashboard <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                Open Dashboard <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                             </Link>
                         ) : (
                             <>

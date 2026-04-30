@@ -15,6 +15,7 @@ import UserReservations from "./pages/student/Reservations";
 import UserActiveReservations from "./pages/student/ActiveReservations";
 import UserActivity from "./pages/student/Activity";
 import GoogleCallback from "./pages/auth/GoogleCallback";
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 function App() {
     return (
@@ -43,6 +44,14 @@ function App() {
                                 }
                             />
                             <Route path="/auth/callback" element={<GoogleCallback />} />
+                            <Route
+                                path="/forgot-password"
+                                element={
+                                    <PublicRoute>
+                                        <ForgotPassword />
+                                    </PublicRoute>
+                                }
+                            />
 
                             <Route
                                 path="/dashboard"

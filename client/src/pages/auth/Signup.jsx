@@ -11,7 +11,6 @@ const Signup = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        password: "",
         role: "student"
     });
     const [isLoading, setIsLoading] = useState(false);
@@ -49,7 +48,7 @@ const Signup = () => {
                             <span className="font-black text-2xl text-white">S</span>
                         </div>
                         <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">Initialize Profile</h2>
-                        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Create New Access ID</p>
+                        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Create New Identity</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
@@ -72,7 +71,7 @@ const Signup = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Universal ID</label>
+                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-slate-400 group-focus-within:text-violet-600 transition-colors">
                                     <Mail size={18} />
@@ -86,31 +85,6 @@ const Signup = () => {
                                     value={formData.email}
                                     onChange={handleChange}
                                 />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Access Key</label>
-                            <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-slate-400 group-focus-within:text-violet-600 transition-colors">
-                                    <Lock size={18} />
-                                </div>
-                                <input
-                                    name="password"
-                                    type={showPassword ? "text" : "password"}
-                                    required
-                                    className="w-full pl-12 pr-14 py-4 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 outline-none focus:border-violet-600 transition-all font-bold placeholder-slate-300 text-sm"
-                                    placeholder="Minimum 6 characters..."
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute inset-y-0 right-0 pr-6 flex items-center text-slate-400 hover:text-violet-600 transition-colors"
-                                >
-                                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                                </button>
                             </div>
                         </div>
 

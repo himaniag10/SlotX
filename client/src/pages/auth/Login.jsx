@@ -47,12 +47,12 @@ const Login = () => {
                             <span className="font-black text-2xl text-white">S</span>
                         </div>
                         <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">Initialize Session</h2>
-                        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Access Secure Node</p>
+                        <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Verify your identity</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-8">
                         <div className="space-y-2.5">
-                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Universal ID</label>
+                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-slate-400 group-focus-within:text-violet-600 transition-colors">
                                     <Mail size={18} />
@@ -70,7 +70,7 @@ const Login = () => {
                         </div>
 
                         <div className="space-y-2.5">
-                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Access Key</label>
+                            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Password</label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-slate-400 group-focus-within:text-violet-600 transition-colors">
                                     <Lock size={18} />
@@ -130,7 +130,10 @@ const Login = () => {
                         </button>
                     </form>
 
-                    <div className="mt-12 pt-10 border-t border-slate-100 text-center">
+                    <div className="mt-8 pt-6 border-t border-slate-100 text-center flex flex-col gap-4">
+                        <Link to="/forgot-password" async className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-violet-600 transition-colors">
+                            Lost Access Pattern?
+                        </Link>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">
                             New operator? <Link to="/signup" className="text-violet-600 hover:text-violet-700 ml-2">Request Credentials</Link>
                         </p>

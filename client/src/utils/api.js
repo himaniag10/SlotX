@@ -40,6 +40,8 @@ export const authApi = {
     login: (data) => apiFetch("/api/auth/login", { method: "POST", body: data }),
     logout: () => apiFetch("/api/auth/logout", { method: "POST" }),
     getMe: () => apiFetch("/api/auth/me"),
+    forgotPassword: (email) => apiFetch("/api/auth/forgot-password", { method: "POST", body: { email } }),
+    resetPassword: (data) => apiFetch("/api/auth/reset-password", { method: "POST", body: data }),
 };
 
 export const adminApi = {

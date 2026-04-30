@@ -8,6 +8,8 @@ const {
   me,
   googleCallback,
   requestTeacherRole,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/auth.controller");
 
 const {
@@ -39,6 +41,10 @@ authRouter.get(
   }),
   googleCallback
 );
+
+// ─── Password Recovery ──────────────────────────────────────────────────────
+authRouter.post("/forgot-password", forgotPassword);
+authRouter.post("/reset-password", resetPassword);
 
 // ─── Teacher Role Request ───────────────────────────────────────────────────
 authRouter.post("/request-teacher", requireAuth, requestTeacherRole);

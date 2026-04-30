@@ -1,25 +1,6 @@
 const TeacherRequest = require("../models/TeacherRequest");
 const User = require("../models/User");
-const nodemailer = require("nodemailer");
-
-// ─── Mail Transporter ───────────────────────────────────────────────────────
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS, // Use App Password (important)
-  },
-});
-
-// ─── Send Email Helper ──────────────────────────────────────────────────────
-const sendEmail = async (to, subject, html) => {
-  return transporter.sendMail({
-    from: process.env.MAIL_USER,
-    to,
-    subject,
-    html,
-  });
-};
+const sendEmail = require("../utils/mailer");
 
 // ─── GET: All Pending Teacher Requests ──────────────────────────────────────
 const getPendingRequests = async (req, res, next) => {
@@ -52,7 +33,7 @@ const reviewRequest = async (req, res, next) => {
 
     // Update request
     request.status = action === "approve" ? "approved" : "rejected";
-    request.reviewedBy = req.user._id;
+    request.reviewedBy = req.user.id;
     request.reviewedAt = new Date();
     request.note = note;
 
@@ -64,30 +45,30 @@ const reviewRequest = async (req, res, next) => {
         role: "teacher",
       });
 
-      await sendEmail(
-        request.user.email,
-        "🎉 You're now a Teacher on SlotX!",
-        `
+      await sendEmail({
+        email: request.user.email,
+        subject: "🎉 You're now a Teacher on SlotX!",
+        html: `
         <h2>Hi ${request.user.name},</h2>
         <p>Your teacher access has been <strong>approved</strong>.</p>
         <p>You can now log in and access your Teacher Dashboard.</p>
         <a href="${process.env.FRONTEND_LOCAL_URL}/login">Login to SlotX</a>
         `
-      );
+      });
     }
 
     // ─── If Rejected ────────────────────────────────────────────────────────
     else {
-      await sendEmail(
-        request.user.email,
-        "SlotX Teacher Request Update",
-        `
+      await sendEmail({
+        email: request.user.email,
+        subject: "SlotX Teacher Request Update",
+        html: `
         <h2>Hi ${request.user.name},</h2>
         <p>Your teacher access request was <strong>not approved</strong>.</p>
         ${note ? `<p><strong>Reason:</strong> ${note}</p>` : ""}
         <p>Contact your admin for more info.</p>
         `
-      );
+      });
     }
 
     return res.json({

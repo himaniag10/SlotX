@@ -59,7 +59,7 @@ const RegistrySection = ({ fullView, isAnyFullView, processedSlots, setSelectedE
                         </div>
                         <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                             <span className="text-[10px] font-bold text-violet-600 uppercase tracking-widest flex items-center gap-2">
-                                Assess <ArrowRight size={10} />
+                                Inspect <ArrowRight size={10} />
                             </span>
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{exam.slots.length} Slots</span>
                         </div>
