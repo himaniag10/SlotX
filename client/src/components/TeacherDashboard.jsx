@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { adminApi, getErrorMessage } from "../utils/api";
-import { Calendar, Clock, Plus, Loader2, ListChecks, Trash2, Edit3, X, UserCheck } from 'lucide-react';
+import { Calendar, Clock, Plus, Loader2, ListChecks, Trash2, UserCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const StatCard = ({ label, value, icon: Icon, color, bg }) => (
@@ -21,7 +21,6 @@ const TeacherDashboard = ({ user }) => {
     const [slots, setSlots] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedSlot, setSelectedSlot] = useState(null);
-    const [editingSlot, setEditingSlot] = useState(null);
     const [form, setForm] = useState({
         examName: "",
         date: "",
