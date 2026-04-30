@@ -25,7 +25,7 @@ const Landing = () => {
             icon: <UserCheck className="w-8 h-8 text-violet-600" />,
             title: "Central Control",
             description: "High-level dashboards for students and admins to maintain order."
-        }
+        } 
     ];
 
     const stats = [

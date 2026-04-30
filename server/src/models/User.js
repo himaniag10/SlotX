@@ -1,35 +1,28 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      index: true,
-    },
-
-    password: {
-      type: String,
-      required: true,
-      select: false,
-    },
+    name:       { type: String, required: true },
+    email:      { type: String, required: true, unique: true },
+    password:   { type: String },                    // optional now (Google users won't have it)
+    googleId:   { type: String, sparse: true },      // only for Google users
+    avatar:     { type: String },                    // Google profile picture
 
     role: {
       type: String,
-      enum: ["admin", "student"],
-      required: true,
+      enum: ["admin", "teacher", "student"],
       default: "student",
     },
+
+    authProvider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
+    },
+
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+export const User = mongoose.model("User", userSchema);
