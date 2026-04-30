@@ -14,6 +14,7 @@ import AdminLogs from "./pages/admin/Logs";
 import UserReservations from "./pages/student/Reservations";
 import UserActiveReservations from "./pages/student/ActiveReservations";
 import UserActivity from "./pages/student/Activity";
+import GoogleCallback from "./pages/auth/GoogleCallback";
 
 function App() {
     return (
@@ -41,6 +42,7 @@ function App() {
                                     </PublicRoute>
                                 }
                             />
+                            <Route path="/auth/callback" element={<GoogleCallback />} />
 
                             <Route
                                 path="/dashboard"

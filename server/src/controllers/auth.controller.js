@@ -136,9 +136,19 @@ const googleCallback = async (req, res) => {
   try {
     const user = req.user;
 
-    const token = generateToken({
+    const token = signAccessToken({
       id: user._id,
       role: user.role,
+    });
+
+    const isProd = process.env.NODE_ENV === "production";
+
+    // Set cookie for consistency with local login
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.redirect(

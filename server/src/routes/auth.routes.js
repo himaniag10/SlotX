@@ -11,8 +11,7 @@ const {
 } = require("../controllers/auth.controller");
 
 const {
-  requireAuth, // your existing middleware
-  verifyToken, // if separate, else reuse requireAuth
+  requireAuth,
 } = require("../middlewares/auth.middleware");
 
 const authRouter = express.Router();
@@ -42,7 +41,7 @@ authRouter.get(
 );
 
 // ─── Teacher Role Request ───────────────────────────────────────────────────
-authRouter.post("/request-teacher", verifyToken, requestTeacherRole);
+authRouter.post("/request-teacher", requireAuth, requestTeacherRole);
 
 // ─── Export ─────────────────────────────────────────────────────────────────
 module.exports = authRouter;
