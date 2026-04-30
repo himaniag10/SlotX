@@ -14,6 +14,7 @@ const passport = require("./configs/passport");
 require("dotenv").config();
 
 const app = express();
+app.set("trust proxy", 1); // Required for secure cookies on Render/Vercel
 const PORT = process.env.PORT || 5001;
 
 app.use(corsMiddleware);
