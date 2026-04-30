@@ -7,6 +7,10 @@ const connectDB = require("./configs/db");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./middlewares/error.middleware");
 
+// ✅ ADD THESE
+const session = require("express-session");
+const passport = require("./configs/passport");
+
 require("dotenv").config();
 
 const app = express();
@@ -16,6 +20,18 @@ app.use(corsMiddleware);
 app.use(express.json());
 app.use(cookieParser());
 
+// ✅ ADD THESE (BEFORE ROUTES)
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+
+// ─── Routes ─────────────────────────────────────────
 app.use("/api/auth", authRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api", bookingRouter);
