@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 import { LogOut, Shield, Menu, X as CloseIcon, Users, FileText, LayoutDashboard, CalendarCheck, Zap, History } from 'lucide-react';
+import { apiFetch, getErrorMessage } from "../utils/api";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
     const { user, logout } = useAuth();
@@ -41,21 +43,24 @@ const Navbar = () => {
                                             className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
                                         >
                                             <Shield size={14} />
-                                            Panel
+                                            Admin
                                         </button>
                                         <button
                                             onClick={() => navigate("/admin/registry")}
                                             className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
                                         >
                                             <Users size={14} />
-                                            Registry
+                                            Users
                                         </button>
+                                    </>
+                                ) : user.role === "teacher" ? (
+                                    <>
                                         <button
-                                            onClick={() => navigate("/admin/logs")}
+                                            onClick={() => navigate("/dashboard")}
                                             className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
                                         >
-                                            <FileText size={14} />
-                                            Logs
+                                            <LayoutDashboard size={14} />
+                                            Portal
                                         </button>
                                     </>
                                 ) : (
@@ -65,30 +70,32 @@ const Navbar = () => {
                                             className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
                                         >
                                             <LayoutDashboard size={14} />
-                                            Dashboard
+                                            Hub
                                         </button>
                                         <button
                                             onClick={() => navigate("/dashboard/reservations")}
                                             className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
                                         >
                                             <CalendarCheck size={14} />
-                                            Reservations
-                                        </button>
-                                        <button
-                                            onClick={() => navigate("/dashboard/active")}
-                                            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
-                                        >
-                                            <Zap size={14} />
-                                            Active
-                                        </button>
-                                        <button
-                                            onClick={() => navigate("/dashboard/activity")}
-                                            className="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-violet-600 transition-colors flex items-center gap-2"
-                                        >
-                                            <History size={14} />
-                                            Activity
+                                            Book
                                         </button>
                                     </>
+                                )}
+
+                                {user.role === "student" && (
+                                    <button
+                                        onClick={async () => {
+                                            try {
+                                                const res = await apiFetch("/api/auth/request-teacher", { method: "POST" });
+                                                toast.success(res.message);
+                                            } catch (err) {
+                                                toast.error(getErrorMessage(err));
+                                            }
+                                        }}
+                                        className="text-[10px] font-black uppercase tracking-widest bg-violet-600 text-white px-3 py-1.5 rounded-lg hover:bg-violet-700 transition-all shadow-md shadow-violet-500/10"
+                                    >
+                                        Upgrade
+                                    </button>
                                 )}
 
                                 <button
@@ -133,28 +140,25 @@ const Navbar = () => {
                                 {user.role === "admin" ? (
                                     <>
                                         <Link to="/admin" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                                            Panel
+                                            Admin
                                         </Link>
                                         <Link to="/admin/registry" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                                            Registry
+                                            Users
                                         </Link>
-                                        <Link to="/admin/logs" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                                            Logs
+                                    </>
+                                ) : user.role === "teacher" ? (
+                                    <>
+                                        <Link to="/dashboard" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
+                                            Portal
                                         </Link>
                                     </>
                                 ) : (
                                     <>
                                         <Link to="/dashboard" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                                            Dashboard
+                                            Hub
                                         </Link>
                                         <Link to="/dashboard/reservations" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                                            Reservations
-                                        </Link>
-                                        <Link to="/dashboard/active" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                                            Active
-                                        </Link>
-                                        <Link to="/dashboard/activity" className="block px-4 py-2 text-xs font-black text-slate-500 uppercase tracking-widest" onClick={() => setIsMenuOpen(false)}>
-                                            Activity
+                                            Book
                                         </Link>
                                     </>
                                 )}

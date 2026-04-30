@@ -168,9 +168,37 @@ const AuditFeed = ({ auditLogs, fullLogs }) => (
     </section>
 );
 
+const TeacherRequests = ({ requests, handleReview }) => (
+    <section className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+            <ShieldAlert className="text-violet-600" size={20} />
+            <h3 className="text-2xl font-black text-slate-900 tracking-tight">Upgrade Requests</h3>
+        </div>
+        <div className="space-y-4">
+            {requests.length === 0 ? (
+                <p className="text-xs text-slate-400 italic">No pending requests.</p>
+            ) : (
+                requests.map(req => (
+                    <div key={req._id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <div>
+                            <p className="text-sm font-bold text-slate-900">{req.user?.name}</p>
+                            <p className="text-[10px] text-slate-400 uppercase tracking-widest">{req.user?.email}</p>
+                        </div>
+                        <div className="flex gap-2">
+                            <button onClick={() => handleReview(req._id, 'approve')} className="px-3 py-1.5 bg-teal-500 text-white text-[10px] font-bold uppercase rounded-lg hover:bg-teal-600 transition-all">Approve</button>
+                            <button onClick={() => handleReview(req._id, 'reject')} className="px-3 py-1.5 bg-rose-500 text-white text-[10px] font-bold uppercase rounded-lg hover:bg-rose-600 transition-all">Reject</button>
+                        </div>
+                    </div>
+                ))
+            )}
+        </div>
+    </section>
+);
+
 const AdminDashboard = ({ user, fullRegistry = false, fullLogs = false }) => {
     const [slots, setSlots] = useState([]);
     const [auditLogs, setAuditLogs] = useState([]);
+    const [teacherRequests, setTeacherRequests] = useState([]);
     const [stats, setStats] = useState({ totalStudents: 0, activeSlots: 0, totalBookings: 0, failedAttempts: 0 });
     const [loading, setLoading] = useState(true);
     const [selectedSlot, setSelectedSlot] = useState(null);
@@ -188,14 +216,16 @@ const AdminDashboard = ({ user, fullRegistry = false, fullLogs = false }) => {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const [slotsRes, logsRes, statsRes] = await Promise.all([
+            const [slotsRes, logsRes, statsRes, requestsRes] = await Promise.all([
                 adminApi.getSlots(),
                 adminApi.getAuditLogs(),
-                adminApi.getStats()
+                adminApi.getStats(),
+                adminApi.getTeacherRequests()
             ]);
             setSlots(slotsRes.data);
             setAuditLogs(logsRes.data);
             setStats(statsRes.data);
+            setTeacherRequests(requestsRes);
         } catch (err) {
             toast.error(getErrorMessage(err));
         } finally {
@@ -263,6 +293,16 @@ const AdminDashboard = ({ user, fullRegistry = false, fullLogs = false }) => {
         }
     };
 
+    const handleReviewRequest = async (id, action) => {
+        try {
+            await adminApi.reviewTeacherRequest(id, { action });
+            fetchData();
+            toast.success(`Request ${action}d`);
+        } catch (err) {
+            toast.error(getErrorMessage(err));
+        }
+    };
+
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[400px]">
@@ -304,7 +344,10 @@ const AdminDashboard = ({ user, fullRegistry = false, fullLogs = false }) => {
             <div className={`grid grid-cols-1 ${(!fullRegistry && !fullLogs) ? 'lg:grid-cols-3' : ''} gap-12`}>
                 <div className={(!fullRegistry && !fullLogs) ? 'lg:col-span-2 space-y-12' : 'w-full space-y-12'}>
                     {!fullRegistry && !fullLogs && (
-                        <DeploymentForm form={form} setForm={setForm} handleCreateSlot={handleCreateSlot} />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <DeploymentForm form={form} setForm={setForm} handleCreateSlot={handleCreateSlot} />
+                            <TeacherRequests requests={teacherRequests} handleReview={handleReviewRequest} />
+                        </div>
                     )}
                     {!fullLogs && (
                         <RegistryTable

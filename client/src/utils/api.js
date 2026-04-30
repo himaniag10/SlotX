@@ -52,6 +52,8 @@ export const adminApi = {
     getSlotBookings: (id) => apiFetch(`/api/admin/slots/${id}/bookings`),
     removeBooking: (id) => apiFetch(`/api/admin/bookings/${id}`, { method: "DELETE" }),
     getAuditLogs: () => apiFetch("/api/admin/audit-logs"),
+    getTeacherRequests: () => apiFetch("/api/admin/teacher-requests"),
+    reviewTeacherRequest: (id, data) => apiFetch(`/api/admin/teacher-requests/${id}`, { method: "PATCH", body: data }),
 };
 
 export const bookingApi = {
