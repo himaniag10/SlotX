@@ -151,12 +151,20 @@ const googleCallback = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
+    const redirectUrl = process.env.NODE_ENV === "production"
+      ? process.env.FRONTEND_SERVER_URL
+      : process.env.FRONTEND_LOCAL_URL;
+
     res.redirect(
-      `${process.env.FRONTEND_LOCAL_URL}/auth/callback?token=${token}&role=${user.role}`
+      `${redirectUrl}/auth/callback?token=${token}&role=${user.role}`
     );
   } catch (err) {
+    const errorRedirectUrl = process.env.NODE_ENV === "production"
+      ? process.env.FRONTEND_SERVER_URL
+      : process.env.FRONTEND_LOCAL_URL;
+
     res.redirect(
-      `${process.env.FRONTEND_LOCAL_URL}/login?error=auth_failed`
+      `${errorRedirectUrl}/login?error=auth_failed`
     );
   }
 };

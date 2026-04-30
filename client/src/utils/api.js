@@ -2,7 +2,7 @@ import axios from "axios";
 
 const isProd = process.env.NODE_ENV === "production";
 
-const API_BASE = isProd
+export const API_BASE = isProd
     ? process.env.REACT_APP_API_BACKEND_SERVER_URL
     : process.env.REACT_APP_API_BACKEND_LOCAL_URL;
 

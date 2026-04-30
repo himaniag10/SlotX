@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { Loader2, User, Mail, Lock, ShieldCheck, Eye, EyeOff } from 'lucide-react';
+import { API_BASE } from "../../utils/api";
 
 const Signup = () => {
     const { signup } = useAuth();
@@ -138,7 +139,7 @@ const Signup = () => {
 
                         <button
                             type="button"
-                            onClick={() => window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google`}
+                            onClick={() => window.location.href = `${API_BASE}/api/auth/google`}
                             className="w-full py-4 bg-white border border-slate-200 hover:border-violet-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-bold uppercase tracking-widest transition-all active:scale-95 flex items-center justify-center gap-3 group"
                         >
                             <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">

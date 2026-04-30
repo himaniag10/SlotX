@@ -1,5 +1,6 @@
 import { useAuth } from "../contexts/AuthContext";
 import AdminDashboard from "../components/AdminDashboard";
+import TeacherDashboard from "../components/TeacherDashboard";
 import UserDashboard from "../components/UserDashboard";
 
 const Dashboard = () => {
@@ -10,6 +11,8 @@ const Dashboard = () => {
             <main className="w-full">
                 {user?.role === "admin" ? (
                     <AdminDashboard user={user} />
+                ) : user?.role === "teacher" ? (
+                    <TeacherDashboard user={user} />
                 ) : (
                     <UserDashboard user={user} />
                 )}

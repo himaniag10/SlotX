@@ -8,33 +8,28 @@ const teacherController = require("../controllers/teacher.controller");
 
 const {
   requireAuth,
-  requireAdmin,
+  requireRole,
 } = require("../middlewares/auth.middleware");
 
-// ─── Protect all admin routes ───────────────────────────────────────────────
+// ─── Protect all routes ───────────────────────────────────────────────────
 router.use(requireAuth);
-router.use(requireAdmin);
 
-// ─── Dashboard ─────────────────────────────────────────────────────────────
-router.get("/stats", dashboardController.getAdminStats);
+// ─── Admin Only ────────────────────────────────────────────────────────────
+router.get("/stats", requireRole("admin"), dashboardController.getAdminStats);
+router.get("/teacher-requests", requireRole("admin"), teacherController.getPendingRequests);
+router.patch("/teacher-requests/:requestId", requireRole("admin"), teacherController.reviewRequest);
+router.get("/audit-logs", requireRole("admin"), auditController.getAuditLogs);
 
-// ─── Slot Management ───────────────────────────────────────────────────────
-router.post("/exam-slots", slotController.createSlot);
-router.get("/exam-slots", slotController.getAdminSlots);
-router.patch("/exam-slots/:id", slotController.updateSlot);
-router.delete("/exam-slots/:id", slotController.deleteSlot);
-router.patch("/exam-slots/:id/toggle", slotController.toggleSlotStatus);
+// ─── Admin & Teacher ───────────────────────────────────────────────────────
+router.post("/exam-slots", requireRole("admin", "teacher"), slotController.createSlot);
+router.get("/exam-slots", requireRole("admin", "teacher"), slotController.getAdminSlots);
+router.patch("/exam-slots/:id", requireRole("admin", "teacher"), slotController.updateSlot);
+router.delete("/exam-slots/:id", requireRole("admin", "teacher"), slotController.deleteSlot);
+router.patch("/exam-slots/:id/toggle", requireRole("admin", "teacher"), slotController.toggleSlotStatus);
 
-// ─── Booking Management ────────────────────────────────────────────────────
-router.get("/slots/:id/bookings", slotController.getSlotBookings);
-router.delete("/bookings/:id", slotController.adminRemoveBooking);
-
-// ─── Teacher Requests  ─────────────────────────────────────────────
-router.get("/teacher-requests", teacherController.getPendingRequests);
-router.patch("/teacher-requests/:requestId", teacherController.reviewRequest);
-
-// ─── Audit Logs ────────────────────────────────────────────────────────────
-router.get("/audit-logs", auditController.getAuditLogs);
+// ─── Booking Management (Admin & Teacher) ──────────────────────────────────
+router.get("/slots/:id/bookings", requireRole("admin", "teacher"), slotController.getSlotBookings);
+router.delete("/bookings/:id", requireRole("admin", "teacher"), slotController.adminRemoveBooking);
 
 // ─── Export ────────────────────────────────────────────────────────────────
 module.exports = router;

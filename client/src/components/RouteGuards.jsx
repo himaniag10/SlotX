@@ -5,7 +5,10 @@ export const ProtectedRoute = ({ children }) => {
     const { user, loading } = useAuth();
 
     if (loading) {
-        return <div className="flex justify-center items-center h-screen">Loading...</div>;
+        return <div className="flex flex-col items-center justify-center h-screen bg-slate-50 gap-4">
+            <div className="w-12 h-12 border-4 border-violet-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Synchronizing...</p>
+        </div>;
     }
 
     if (!user) {
@@ -19,10 +22,30 @@ export const AdminRoute = ({ children }) => {
     const { user, loading } = useAuth();
 
     if (loading) {
-        return <div className="flex justify-center items-center h-screen">Loading...</div>;
+        return <div className="flex flex-col items-center justify-center h-screen bg-slate-50 gap-4">
+            <div className="w-12 h-12 border-4 border-violet-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Authenticating...</p>
+        </div>;
     }
 
     if (!user || user.role !== "admin") {
+        return <Navigate to="/" />;
+    }
+
+    return children;
+};
+
+export const TeacherRoute = ({ children }) => {
+    const { user, loading } = useAuth();
+
+    if (loading) {
+        return <div className="flex flex-col items-center justify-center h-screen bg-slate-50 gap-4">
+            <div className="w-12 h-12 border-4 border-violet-600 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Authenticating...</p>
+        </div>;
+    }
+
+    if (!user || user.role !== "teacher") {
         return <Navigate to="/" />;
     }
 
