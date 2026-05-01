@@ -70,9 +70,8 @@ const register = async (req, res, next) => {
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      partitioned: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -114,9 +113,8 @@ const login = async (req, res, next) => {
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      partitioned: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -169,19 +167,19 @@ const googleCallback = async (req, res) => {
 
     res.cookie("accessToken", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      partitioned: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    const redirectUrl = process.env.NODE_ENV === "production"
+    const redirectUrl = isProd
       ? process.env.FRONTEND_SERVER_URL
       : process.env.FRONTEND_LOCAL_URL;
 
     res.redirect(`${redirectUrl}/auth/callback`);
   } catch (err) {
-    const errorRedirectUrl = process.env.NODE_ENV === "production"
+    const isProd = process.env.NODE_ENV === "production" || process.env.RENDER === "true";
+    const errorRedirectUrl = isProd
       ? process.env.FRONTEND_SERVER_URL
       : process.env.FRONTEND_LOCAL_URL;
 

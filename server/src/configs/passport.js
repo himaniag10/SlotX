@@ -2,12 +2,27 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("../models/User");
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
+
 passport.use(
   new GoogleStrategy(
     {
       clientID:     process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://slotx.onrender.com/api/auth/google/callback"
+      callbackURL: process.env.RENDER === "true" 
+        ? "https://slotx.onrender.com/api/auth/google/callback"
+        : "http://localhost:5001/api/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -47,4 +62,4 @@ passport.use(
   )
 );
 
-module.exports = passport;
+module.exports = passport;

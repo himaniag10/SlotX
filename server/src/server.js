@@ -21,16 +21,22 @@ app.use(corsMiddleware);
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ ADD THESE (BEFORE ROUTES)
+const isProd = process.env.NODE_ENV === "production" || process.env.RENDER === "true";
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+    },
   })
 );
 
 app.use(passport.initialize());
+app.use(passport.session());
 
 // ─── Routes ─────────────────────────────────────────
 app.use("/api/auth", authRouter);
