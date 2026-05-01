@@ -10,9 +10,26 @@ if (!API_BASE) {
     throw new Error("API base URL is not defined");
 }
 
+// ─── Token Storage Helpers ───────────────────────────────────────────────────
+const TOKEN_KEY = "slotx_token";
+
+export const saveToken = (token) => localStorage.setItem(TOKEN_KEY, token);
+export const getToken  = ()      => localStorage.getItem(TOKEN_KEY);
+export const clearToken = ()     => localStorage.removeItem(TOKEN_KEY);
+
+// ─── Axios Instance ──────────────────────────────────────────────────────────
 export const api = axios.create({
     baseURL: API_BASE,
-    withCredentials: true,
+    withCredentials: true, // still send cookies if browser allows
+});
+
+// Attach the Bearer token automatically on every request
+api.interceptors.request.use((config) => {
+    const token = getToken();
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
 });
 
 api.interceptors.response.use(
@@ -72,4 +89,4 @@ export const getErrorMessage = (error) => {
         return error.response?.data?.message || error.response?.data?.error || error.message;
     }
     return error instanceof Error ? error.message : "Something went wrong";
-};
+};

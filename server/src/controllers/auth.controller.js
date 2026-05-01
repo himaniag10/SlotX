@@ -165,6 +165,7 @@ const googleCallback = async (req, res) => {
 
     const isProd = process.env.NODE_ENV === "production" || process.env.RENDER === "true";
 
+    // Also set cookie as fallback (for browsers that allow it)
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: isProd,
@@ -172,11 +173,13 @@ const googleCallback = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    const redirectUrl = isProd
+    const frontendUrl = isProd
       ? process.env.FRONTEND_SERVER_URL
       : process.env.FRONTEND_LOCAL_URL;
 
-    res.redirect(`${redirectUrl}/auth/callback`);
+    // Pass token in URL so frontend can store it in localStorage
+    // This bypasses cross-domain cookie issues
+    res.redirect(`${frontendUrl}/auth/callback?token=${token}`);
   } catch (err) {
     const isProd = process.env.NODE_ENV === "production" || process.env.RENDER === "true";
     const errorRedirectUrl = isProd
@@ -188,6 +191,7 @@ const googleCallback = async (req, res) => {
     );
   }
 };
+
 
 // ─── Request Teacher Role ──────────────────────────────────────────────────
 const requestTeacherRole = async (req, res) => {

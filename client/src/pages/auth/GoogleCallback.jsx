@@ -1,30 +1,42 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { saveToken } from "../../utils/api";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 const GoogleCallback = () => {
     const { refreshUser } = useAuth();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     useEffect(() => {
         const handleCallback = async () => {
             try {
-                // The backend has already set the httpOnly cookie.
-                // We just need to refresh our global state.
+                // Grab the token the backend put in the redirect URL
+                const token = searchParams.get("token");
+
+                if (token) {
+                    // Save it so every future API call sends it as Bearer
+                    saveToken(token);
+                } else {
+                    // No token in URL — maybe cookie worked (unlikely cross-domain)
+                    console.warn("No token in callback URL, relying on cookie.");
+                }
+
+                // Now /api/auth/me will succeed because Bearer header will be sent
                 await refreshUser();
                 toast.success("Synchronized successfully!");
-                navigate("/dashboard");
+                navigate("/dashboard", { replace: true });
             } catch (error) {
                 console.error("Auth sync failed", error);
                 toast.error("Failed to sync profile.");
-                navigate("/login");
+                navigate("/login", { replace: true });
             }
         };
 
         handleCallback();
-    }, [refreshUser, navigate]);
+    }, [refreshUser, navigate, searchParams]);
 
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6">

@@ -1,9 +1,15 @@
 const { verifyAccessToken } = require("../utils/jwt");
 require("dotenv").config();
 
-// ─── Require Auth (JWT via cookies) ─────────────────────────────────────────
+// ─── Require Auth (JWT via cookies or Authorization header) ─────────────────
 const requireAuth = (req, res, next) => {
-  const token = req.cookies.accessToken;
+  // 1) Check cookie first
+  let token = req.cookies.accessToken;
+
+  // 2) Fall back to Authorization: Bearer <token>
+  if (!token && req.headers.authorization?.startsWith("Bearer ")) {
+    token = req.headers.authorization.split(" ")[1];
+  }
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });

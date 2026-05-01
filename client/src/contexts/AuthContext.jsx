@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { apiFetch, getErrorMessage } from "../utils/api";
+import { apiFetch, getErrorMessage, saveToken, clearToken } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -23,11 +23,13 @@ export function AuthProvider({ children }) {
 
     const login = async (data) => {
         try {
-            await apiFetch("/api/auth/login", {
+            const res = await apiFetch("/api/auth/login", {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" }
             });
+            // Save token from response body so it works cross-domain
+            if (res?.accessToken) saveToken(res.accessToken);
             await refreshUser();
         } catch (error) {
             throw new Error(getErrorMessage(error));
@@ -36,11 +38,13 @@ export function AuthProvider({ children }) {
 
     const signup = async (data) => {
         try {
-            await apiFetch("/api/auth/register", {
+            const res = await apiFetch("/api/auth/register", {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: { "Content-Type": "application/json" }
             });
+            // Save token from response body so it works cross-domain
+            if (res?.accessToken) saveToken(res.accessToken);
             await refreshUser();
         } catch (error) {
             throw new Error(getErrorMessage(error));
@@ -53,6 +57,7 @@ export function AuthProvider({ children }) {
         } catch (error) {
             console.error("Logout failed", error);
         }
+        clearToken();
         setUser(null);
         navigate("/login");
         toast.success("Logged out successfully!");
@@ -73,4 +78,4 @@ export const useAuth = () => {
     const ctx = useContext(AuthContext);
     if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
     return ctx;
-};
+};
